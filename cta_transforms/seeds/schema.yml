@@ -1,0 +1,11 @@
+version: 2
+
+seeds:
+  - name: cta_daily_ridership
+    config:
+      column_types:
+        service_date: varchar
+        day_type: varchar
+        bus: varchar
+        rail_boardings: varchar
+        total_rides: varchar
