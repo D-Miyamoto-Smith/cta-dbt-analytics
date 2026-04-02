@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_cta_daily_ridership
+    description: "Cleaned and typed daily CTA ridership data. Source is the Chicago Data Portal Daily Boarding Totals CSV."
+    columns:
+      - name: service_date
+        description: "Date of service"
+        tests:
+          - not_null
+          - unique
+      - name: day_type_code
+        description: "W = Weekday, A = Saturday, U = Sunday / Holiday"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['W', 'A', 'U']
+      - name: bus_boardings
+        description: "Total bus boardings system-wide for the day"
+        tests:
+          - not_null
+      - name: rail_boardings
+        description: "Total L train boardings system-wide for the day"
+        tests:
+          - not_null
+      - name: total_rides
+        description: "Total rides across bus and rail"
+        tests:
+          - not_null
