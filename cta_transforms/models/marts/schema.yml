@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: mart_monthly_ridership
+    description: "Monthly aggregated CTA ridership with bus/rail split and rail share of total rides."
+    columns:
+      - name: month
+        description: "First day of the month, used as the month grain key"
+        tests:
+          - not_null
+          - unique
+      - name: rail_pct_of_total
+        description: "Rail boardings as a percentage of total rides for the month"
+        tests:
+          - not_null
+
+  - name: mart_dow_ridership
+    description: "Average and total CTA ridership aggregated by day of week across all years."
+    columns:
+      - name: day_of_week_num
+        description: "Numeric day of week, 0 = Sunday through 6 = Saturday"
+        tests:
+          - not_null
+      - name: day_of_week_name
+        description: "Full name of the day e.g. Monday, Tuesday"
+        tests:
+          - not_null
+      - name: avg_total_rides
+        description: "Average total rides across all observed days of this type"
+        tests:
+          - not_null
