@@ -7,8 +7,23 @@ ui <- page_navbar(
   ),
 
   # Tab 1 - Monthly Trend
-  nav_panel(
+nav_panel(
     title = "Monthly Trends",
+    layout_columns(
+      col_widths = c(12),
+      card(
+        card_header("Filters"),
+        sliderInput(
+          inputId = "year_range",
+          label = "Select Year Range",
+          min = 2001,
+          max = 2026,
+          value = c(2001, 2026),
+          step = 1,
+          sep = ""
+        )
+      )
+    ),
     layout_columns(
       col_widths = c(12),
       card(

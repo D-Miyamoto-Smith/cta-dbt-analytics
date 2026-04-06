@@ -1,8 +1,14 @@
 server <- function(input, output, session) {
 
+monthly_filtered <- reactive({
+    monthly %>%
+      filter(year >= input$year_range[1],
+             year <= input$year_range[2])
+  })
+
   # --- Monthly Trend ---
   output$monthly_trend <- renderPlotly({
-    p <- ggplot(monthly, aes(x = month, y = total_rides)) +
+    p <- ggplot(monthly_filtered(), aes(x = month, y = total_rides)) +
       geom_line(color = "#00b4d8", linewidth = 0.8) +
       geom_area(fill = "#00b4d8", alpha = 0.1) +
       annotate("rect",
@@ -33,7 +39,7 @@ server <- function(input, output, session) {
 
   # --- Bus vs Rail ---
 output$bus_vs_rail <- renderPlotly({
-    p <- monthly %>%
+    p <- monthly_filtered() %>%
       select(month, total_bus_boardings, total_rail_boardings) %>%
       pivot_longer(cols = c(total_bus_boardings, total_rail_boardings),
                    names_to = "mode", values_to = "boardings") %>%
@@ -64,7 +70,7 @@ output$bus_vs_rail <- renderPlotly({
 
   # --- Rail Share ---
   output$rail_share <- renderPlotly({
-    p <- ggplot(monthly, aes(x = month, y = rail_pct_of_total)) +
+    p <- ggplot(monthly_filtered(), aes(x = month, y = rail_pct_of_total)) +
       geom_line(color = "#a8dadc", linewidth = 0.7) +
       geom_smooth(method = "loess", se = FALSE,
                   color = "#ffffff", linewidth = 0.4, linetype = "dashed") +
